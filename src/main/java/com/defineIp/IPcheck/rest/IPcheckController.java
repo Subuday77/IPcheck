@@ -22,8 +22,8 @@ public class IPcheckController {
 	public ResponseEntity<?> getPost(HttpServletRequest request) {
 		String type = request.getMethod();
 		System.out.println(type + " request:\n" + request + "\nCame from IP:\n" + getClientIpAddress(request));
-		return new ResponseEntity<String>(
-				type + " request:\n" + request + "\nCame from IP:\n" + getClientIpAddress(request), HttpStatus.OK);
+		return new ResponseEntity<String>("{"+
+				type + " request:\n" + request + "\nCame from IP:\n" + getClientIpAddress(request)+"}", HttpStatus.OK);
 
 	}
 
