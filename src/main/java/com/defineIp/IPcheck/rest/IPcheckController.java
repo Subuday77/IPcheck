@@ -11,27 +11,30 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.defineIp.IPcheck.beans.Result;
+
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/request")
 public class IPcheckController {
 	@Autowired
 	HttpServletRequest servletRequest;
+	@Autowired
+	Result result;
 
 	@RequestMapping("/send")
 	public ResponseEntity<?> getPost(HttpServletRequest request) {
-		String type = request.getMethod();
-		System.out.println(type + " request:\n" + request + "\nCame from IP:\n" + getClientIpAddress(request));
-		return new ResponseEntity<String>("{"+
-				type + " request:\n" + request + "\nCame from IP:\n" + getClientIpAddress(request)+"}", HttpStatus.OK);
-
-	}
+		result.setRequestType(request.getMethod());
+		result.setRemoteAddress(getClientIpAddress(request));
+		System.out.println(result.getRequestType() + " request:\n" + request + "\nCame from IP:\n" + result.getRemoteAddress());
+		return new ResponseEntity<Result>(result, HttpStatus.OK);
+				
+		}
 
 	public String getClientIpAddress(HttpServletRequest request) {
 		String xForwardedForHeader = servletRequest.getHeader("X-Forwarded-For");
 		if (xForwardedForHeader == null) {
-			String res = "RemoteAddr="+ request.getRemoteAddr() + " LocalAddr="+request.getLocalAddr();
-			return res;
+			return request.getRemoteAddr();
 		} else {
 			return new StringTokenizer(xForwardedForHeader, ",").nextToken().trim();
 		}
