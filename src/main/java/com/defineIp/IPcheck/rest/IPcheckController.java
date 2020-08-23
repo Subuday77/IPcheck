@@ -30,7 +30,8 @@ public class IPcheckController {
 	public String getClientIpAddress(HttpServletRequest request) {
 		String xForwardedForHeader = servletRequest.getHeader("X-Forwarded-For");
 		if (xForwardedForHeader == null) {
-			return request.getRemoteAddr();
+			String res = "RemoteAddr="+ request.getRemoteAddr() + " LocalAddr="+request.getLocalAddr();
+			return res;
 		} else {
 			return new StringTokenizer(xForwardedForHeader, ",").nextToken().trim();
 		}
