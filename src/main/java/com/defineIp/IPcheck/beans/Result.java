@@ -5,16 +5,27 @@ import org.springframework.stereotype.Component;
 @Component
 public class Result {
 
+	private String protocol;
 	private String requestType;
 	private String remoteAddress;
+	
 
 	public Result() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Result(String requestType, String remoteAddress) {
+	public Result(String protocol, String requestType, String remoteAddress) {
+		this.setProtocol(protocol);
 		this.requestType = requestType;
 		this.remoteAddress = remoteAddress;
+	}
+
+	public String getProtocol() {
+		return protocol;
+	}
+
+	public void setProtocol(String protocol) {
+		this.protocol = protocol;
 	}
 
 	public String getRequestType() {

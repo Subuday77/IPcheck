@@ -24,9 +24,11 @@ public class IPcheckController {
 
 	@RequestMapping("/send")
 	public ResponseEntity<?> getPost(HttpServletRequest request) {
+		
+		result.setProtocol(request.getProtocol());
 		result.setRequestType(request.getMethod());
 		result.setRemoteAddress(getClientIpAddress(request));
-		System.out.println(result.getRequestType() + " request:\n" + request + "\nCame from IP:\n" + result.getRemoteAddress());
+		System.out.println(result.getProtocol() + " " +result.getRequestType() + " request:\n" + request + "\nCame from IP:\n" + result.getRemoteAddress());
 		return new ResponseEntity<Result>(result, HttpStatus.OK);
 				
 		}
