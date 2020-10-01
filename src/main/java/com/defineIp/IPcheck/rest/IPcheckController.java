@@ -56,7 +56,7 @@ public class IPcheckController {
 		String hash = servletRequest.getHeader("hash");
 		System.out.println("Hash: " + hash);
 		System.out.println("Request body: " + request);
-		resultString = "Hash: " + hash + "\n" + "Request body: " + request;
+		resultString = "Hash: " + hash + "\n\n" + "Request body: " + request;
 		return new ResponseEntity<String>(resultString, HttpStatus.OK);
 	}
 
