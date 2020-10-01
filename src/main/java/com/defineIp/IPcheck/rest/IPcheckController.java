@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,14 +26,15 @@ public class IPcheckController {
 
 	@RequestMapping("/send")
 	public ResponseEntity<?> getPost(HttpServletRequest request) {
-		
+
 		result.setProtocol(request.getProtocol());
 		result.setRequestType(request.getMethod());
 		result.setRemoteAddress(getClientIpAddress(request));
-		System.out.println(result.getProtocol() + " " +result.getRequestType() + " request:\n" + request + "\nCame from IP:\n" + result.getRemoteAddress());
+		System.out.println(result.getProtocol() + " " + result.getRequestType() + " request:\n" + request
+				+ "\nCame from IP:\n" + result.getRemoteAddress());
 		return new ResponseEntity<Result>(result, HttpStatus.OK);
-				
-		}
+
+	}
 
 	public String getClientIpAddress(HttpServletRequest request) {
 		String xForwardedForHeader = servletRequest.getHeader("X-Forwarded-For");
@@ -40,6 +43,14 @@ public class IPcheckController {
 		} else {
 			return new StringTokenizer(xForwardedForHeader, ",").nextToken().trim();
 		}
+	}
+
+	@PostMapping("/post")
+	public ResponseEntity<?> postRequest (@RequestBody String request){
+		String hash = servletRequest.getHeader("hash");
+		System.out.println("Hash: "+ hash);
+		System.out.println("Request body: " + request);
+		return new ResponseEntity<String> ("Hash: "+ hash + "\n"+ "Request body: " + request, HttpStatus.OK);
 	}
 
 }
