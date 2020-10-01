@@ -49,15 +49,13 @@ public class IPcheckController {
 	}
 
 	@PostMapping("/post")
-	public ResponseEntity<?> postRequest(@RequestBody String request) {
-		if (request.isBlank()) {
-			return new ResponseEntity<String>("Request body is missing!", HttpStatus.BAD_REQUEST);
-		}
+	public void postRequest(@RequestBody String request) {
+		
 		String hash = servletRequest.getHeader("hash");
 		System.out.println("Hash: " + hash);
 		System.out.println("Request body: " + request);
 		resultString = "Hash: " + hash + "\n" + "Request body: " + request;
-		return new ResponseEntity<String>(resultString, HttpStatus.OK);
+		
 	}
 
 	@GetMapping("/getresult")
