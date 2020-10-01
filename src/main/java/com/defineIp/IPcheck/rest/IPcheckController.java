@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +24,8 @@ public class IPcheckController {
 	HttpServletRequest servletRequest;
 	@Autowired
 	Result result;
+
+	String resultString = "There is nothing to show";
 
 	@RequestMapping("/send")
 	public ResponseEntity<?> getPost(HttpServletRequest request) {
@@ -46,11 +49,20 @@ public class IPcheckController {
 	}
 
 	@PostMapping("/post")
-	public ResponseEntity<?> postRequest (@RequestBody String request){
+	public ResponseEntity<?> postRequest(@RequestBody String request) {
+		if (request.isBlank()) {
+			return new ResponseEntity<String>("Request body is missing!", HttpStatus.BAD_REQUEST);
+		}
 		String hash = servletRequest.getHeader("hash");
-		System.out.println("Hash: "+ hash);
+		System.out.println("Hash: " + hash);
 		System.out.println("Request body: " + request);
-		return new ResponseEntity<String> ("Hash: "+ hash + "\n"+ "Request body: " + request, HttpStatus.OK);
+		resultString = "Hash: " + hash + "\n" + "Request body: " + request;
+		return new ResponseEntity<String>(resultString, HttpStatus.OK);
+	}
+
+	@GetMapping("/getresult")
+	public ResponseEntity<?> getResult() {
+		return new ResponseEntity<String>(resultString, HttpStatus.OK);
 	}
 
 }
